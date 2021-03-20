@@ -220,6 +220,8 @@ bool validateResults(video::IVideoDriver* driver, const uint32_t* inputData, con
 		if (downloadStagingArea->needsManualFlushOrInvalidate())
 			driver->invalidateMappedMemoryRanges({ {downloadStagingArea->getBuffer()->getBoundMemory(),address,kBufferSize} });
 
+		glFinish();
+
 		auto dataFromBuffer = reinterpret_cast<uint32_t*>(reinterpret_cast<uint8_t*>(downloadStagingArea->getBufferPointer())+address);
 		const uint32_t subgroupSize = (*dataFromBuffer++);
 
