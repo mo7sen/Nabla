@@ -1,1 +1,1 @@
-#define BUFFER_DWORD_COUNT (32*1024*1024)
+#define BUFFER_DWORD_COUNT (64*1024-1) // some devices can't do more than 64k dispatches along an axis

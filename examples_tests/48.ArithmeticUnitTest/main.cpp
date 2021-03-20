@@ -261,7 +261,7 @@ bool runTest(video::IVideoDriver* driver, video::IGPUComputePipeline* pipeline, 
 	driver->bindComputePipeline(pipeline);
 	driver->bindDescriptorSets(video::EPBP_COMPUTE,pipeline->getLayout(),0u,1u,&ds,nullptr);
 	const uint32_t workgroupCount = BUFFER_DWORD_COUNT/workgroupSize;
-	driver->dispatch(workgroupCount, 1, 1);
+	driver->dispatch(workgroupCount, 1, 1); // TODO: in the future support more workgroups, bu factoring workgroup count into X,Y and Z factors all less than 64k
 	video::COpenGLExtensionHandler::extGlMemoryBarrier(GL_BUFFER_UPDATE_BARRIER_BIT|GL_SHADER_STORAGE_BARRIER_BIT);
 	//check results 
 	bool passed = validateResults<Arithmetic,and>(driver, inputData, workgroupSize, workgroupCount, buffers[0].get());
@@ -304,7 +304,7 @@ int main()
 	{
 		std::mt19937 randGenerator(std::time(0));
 		for (uint32_t i = 0u; i < BUFFER_DWORD_COUNT; i++)
-			inputData[i] = randGenerator();
+			inputData[i] = i;// randGenerator();
 	}
 	auto gpuinputDataBuffer = driver->createFilledDeviceLocalGPUBufferOnDedMem(kBufferSize, inputData);
 	
